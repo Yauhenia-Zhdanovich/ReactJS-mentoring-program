@@ -1,0 +1,17 @@
+!.vscode/
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
+
+node_modules
+.idea/
+*.log
+npm-debug.log*
+dist
+build
+coverage
+junit.xml
+test-report.xml
+.DS_Store
+
+/package-lock.json
