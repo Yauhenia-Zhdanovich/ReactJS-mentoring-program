@@ -1,5 +1,13 @@
-console.log('hello world');
+import React from 'react';
+import ReactDOM from "react-dom";
 
-let arr = [1, 2, 3, 4];
+import LandingPage from './containers/landing.jsx';
 
-console.log([...arr, 5]);
+const rootElement = document.getElementById('root');
+
+ReactDOM.render(
+  <React.StrictMode>
+    <LandingPage />
+  </React.StrictMode>,
+  rootElement
+);
