@@ -1,7 +1,10 @@
 import React from 'react';
-import MovieCard from '../components/movie-card.component.jsx';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
+import MovieCard from '../components/movie-card.component.jsx';
+import ModalWindow from '../components/modal-window.component.jsx';
+import AddMovie from './add-movie.component.jsx';
 
 import moviesMock from '../assets/movies.mock';
 
@@ -23,6 +26,22 @@ const MovieList = (
   sortByDate ? movies.sort((a, b) => a.year - b.year)
     : movies.sort((a, b) => b.year - a.year);
 
+  let showEditModal = false;
+  let showDeleteModal = false;
+
+  const onItemEdit = (id) => {
+    showEditModal = true;
+  };
+
+  const onItemDelete = (id) => {
+    showDeleteModal = true;
+  };
+
+  const handleClose = () => {
+    showEditModal = false;
+    showDeleteModal = false;
+  };
+
   return (
     <Main>
       <MoviesAmount>{movies.length} movies found</MoviesAmount>
@@ -33,11 +52,34 @@ const MovieList = (
               title={movie.title}
               genre={movie.genre}
               key={movie.id}
+              id={movie.id}
               year={movie.year}
+              onItemDelete={onItemDelete}
+              onItemEdit={onItemEdit}
             />
           ))
         }
       </MoviesContainer>
+      {
+        showEditModal && 
+          <ModalWindow
+          showModalWindow={showEditModal}
+          handleClose={handleClose}
+          headerText={'EDIT MOVIE'}
+        >
+          <p>Are you sure you want to delete this movie?</p>
+        </ModalWindow>
+      }
+      {
+        showDeleteModal && 
+          <ModalWindow
+          showModalWindow={showDeleteModal}
+          handleClose={handleClose}
+          headerText={'DELETE MOVIE'}
+        >
+          <AddMovie formValue={{}}/>
+        </ModalWindow>
+      }
     </Main>
   )
 }

@@ -8,7 +8,7 @@ const moviesMock = [
   {
     id: 2,
     title: 'Pulp Fiction',
-    genre: 'Action & Adventure',
+    genre: 'Crime',
     year: 2004
   },
   {
@@ -26,7 +26,7 @@ const moviesMock = [
   {
     id: 5,
     title: 'Inception',
-    genre: 'Action & Adventure',
+    genre: 'Horror',
     year: 2003
   },
   {

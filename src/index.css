@@ -4,3 +4,11 @@ body {
   font-family: 'Courier Prime', monospace;
   font-size: 18px;
 }
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}

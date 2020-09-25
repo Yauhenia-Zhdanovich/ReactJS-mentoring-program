@@ -6,6 +6,8 @@ import MovieList from './movie-list.jsx';
 import FilterDashboard from '../components/filter-dashboard.component.jsx';
 import Footer from '../components/footer.component.jsx';
 import ErrorBoundary from './error-boundaries.cimponent.jsx';
+import ModalWindow from '../components/modal-window.component.jsx';
+import AddMovie from './add-movie.component.jsx';
 
 class LandingPage extends React.Component {
   constructor() {
@@ -14,11 +16,12 @@ class LandingPage extends React.Component {
     this.onGenreChanged = this.onGenreChanged.bind(this);
     this.onSortByDateChanged = this.onSortByDateChanged.bind(this);
     this.onSearchInputChange = this.onSearchInputChange.bind(this);
-
+    this.onAddMovieModalStateChange = this.onAddMovieModalStateChange.bind(this);
     this.state = {
       sortByGenre: 'All',
       sortByDate: true,
-      searchValue: ''
+      searchValue: '',
+      showModal: false,
     };
   }
 
@@ -36,12 +39,17 @@ class LandingPage extends React.Component {
     this.setState({searchValue: newSearchValue});
   }
 
+  onAddMovieModalStateChange(isWindowOpen) {
+    this.setState({showModal: isWindowOpen});
+  }
+
   render() {
     return (
       <ErrorBoundary>
         <AppRoot>
           <Header
             onSearchInputChange={this.onSearchInputChange}
+            onAddMovieClick={this.onAddMovieModalStateChange}
           />
           <FilterDashboard
             onGenreChanged={this.onGenreChanged}
@@ -57,6 +65,16 @@ class LandingPage extends React.Component {
             />
           </ErrorBoundary>
           <Footer/>
+          {
+            this.state.showModal && 
+              <ModalWindow
+              showModalWindow={this.state.showModal}
+              handleClose={this.onAddMovieModalStateChange}
+              headerText={'ADD MOVIE'}
+            >
+              <AddMovie formValue={{}}/>             
+            </ModalWindow>
+          }
         </AppRoot>
       </ErrorBoundary>  
     );

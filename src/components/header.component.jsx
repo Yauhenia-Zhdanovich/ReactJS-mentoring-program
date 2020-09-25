@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { RedButton } from '../assets/shared-styles.js';
+
 const Header = ({
   onSearchInputChange,
+  onAddMovieClick,
 }) => {
 
   const [currentSearchValue, handler] = useState("");
@@ -16,7 +19,7 @@ const Header = ({
     <HeaderContainer>
       <HeaderTop>
         <Logo>neflixRoulette</Logo>
-        <HeadingButton>Add Movie</HeadingButton>
+        <RedButton onClick={() => onAddMovieClick(true)}>Add Movie</RedButton>
       </HeaderTop>
       <GeneralHeading>
         FIND YOUR MOVIE
@@ -24,7 +27,7 @@ const Header = ({
       <MovieSearchInputContainer>
         <input type="text" value={currentSearchValue}
           onChange={event => handler(event.target.value)}/>
-        <HeadingButton onClick={() => handleSearch()}>Search</HeadingButton>
+        <RedButton onClick={() => handleSearch()}>Search</RedButton>
       </MovieSearchInputContainer>
     </HeaderContainer>
   );
@@ -46,17 +49,6 @@ const HeaderTop = styled.div`
 const Logo = styled.div`
   font-size: 25px;
   padding: 40px 0;
-`;
-
-const HeadingButton = styled.button`
-  background: transparent;
-  border-radius: 3px;
-  border: 2px solid #f65261;
-  color: #f65261;
-  padding: 10px;
-  font-size: 20px;
-  height: 50px;
-  cursor: pointer;
 `;
 
 const MovieSearchInputContainer = styled.div`
