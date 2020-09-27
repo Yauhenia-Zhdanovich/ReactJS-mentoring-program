@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { RedButton } from '../assets/shared-styles.js';
+import { useInput } from '../hooks/use-input.hook.js';
 
 const Header = ({
   onSearchInputChange,
   onAddMovieClick,
 }) => {
-
-  const [currentSearchValue, handler] = useState("");
-
-  const handleSearch = () => {
-    onSearchInputChange(currentSearchValue);
-  };
+  const [searchValue, bindSerchValue] = useInput('');
 
   return (
     <HeaderContainer>
@@ -25,9 +21,8 @@ const Header = ({
         FIND YOUR MOVIE
       </GeneralHeading>
       <MovieSearchInputContainer>
-        <input type="text" value={currentSearchValue}
-          onChange={event => handler(event.target.value)}/>
-        <RedButton onClick={() => handleSearch()}>Search</RedButton>
+        <input type="text" {...bindSerchValue}/>
+        <RedButton onClick={() => onSearchInputChange(searchValue)}>Search</RedButton>
       </MovieSearchInputContainer>
     </HeaderContainer>
   );
@@ -66,4 +61,4 @@ Header.propTypes = {
   onSearchInputChange: PropTypes.func,
 }
 
-export default Header;
+export default React.memo(Header);

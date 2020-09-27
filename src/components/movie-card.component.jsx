@@ -4,22 +4,40 @@ import PropTypes from 'prop-types';
 
 import { RedButton } from '../assets/shared-styles.js';
 
-const MovieCard = (props) => {
+const MovieCard = ({
+  onItemEdit,
+  onItemDelete,
+  movie,
+  isActiveMode,
+  onItemSelected,
+}) => {
+
+  const onEditButtonCLick = event => {
+    event.stopPropagation();
+    onItemEdit(movie.id);
+  }
+  
+  const onDeleteButtonClick = event => {
+    event.stopPropagation();
+    onItemDelete(movie.id);
+  }
 
   return (
-    <MovieCardArticle>
+    <MovieCardArticle onClick={() => {onItemSelected(movie)}}>
       <MovieImageContainer>
         <img src="" alt=""/>
-        <MovieOptionButton>
-          <RedButton onClick={() => {props.onItemEdit(props.id)}}>Edit</RedButton>
-          <RedButton onClick={() => {props.onItemDelete(props.id)}}>Delete</RedButton> 
-        </MovieOptionButton>
-        
+        {
+          isActiveMode &&
+          <MovieOptionButton>
+            <RedButton onClick={event => {onEditButtonCLick(event)}}>Edit</RedButton>
+            <RedButton onClick={event => {onDeleteButtonClick(event)}}>Delete</RedButton> 
+          </MovieOptionButton>
+        }
       </MovieImageContainer>
       <MovieInfo>
-        <h3>{props.title}</h3>
-        <p>{props.year}</p>
-        <p>{props.genre}</p>
+        <h3>{movie.title}</h3>
+        <p>{movie.year}</p>
+        <p>{movie.genre}</p>
       </MovieInfo>
     </MovieCardArticle>
   )
@@ -46,15 +64,24 @@ const MovieOptionButton = styled.div`
   position: relative;
 `;
 
-const MovieOptionList = styled.div`
-  z-index: 1000;
-`;
 
-MovieCard.propTypes = {
-  title: PropTypes.string,
-  genre: PropTypes.string,
-  year: PropTypes.number,
-  id: PropTypes.number,
-}
+MovieCard.propTypes =  {
+  onItemEdit: PropTypes.func,
+  onItemDelete: PropTypes.func,
+  movie: PropTypes.shape(
+    {
+      title: PropTypes.string,
+      genre: PropTypes.string,
+      year: PropTypes.number,
+      imageUrl: PropTypes.string,
+      filmRating: PropTypes.number,
+      description: PropTypes.string,
+      duration: PropTypes.number,
+      id: PropTypes.number,
+    }
+  ),
+  isActiveMode: PropTypes.bool,
+  onItemSelected: PropTypes.func,
+};
 
-export default MovieCard;
+export default React.memo(MovieCard);

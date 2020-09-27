@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -12,72 +12,98 @@ const MovieList = (
   {
     sortByDate = true,
     sortByGenre = 'All',
-    searchValue = ''
+    searchValue = '',
+    onItemSelected
   }) => {
-  let movies = sortByGenre === 'All'
-    ? moviesMock
-    : moviesMock.filter(movie => movie.genre === sortByGenre);
 
-  movies = !searchValue
-  ? movies
-  : movies.filter(movie => {
-    return movie.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())});
+  const [movieList, setMovieList] = useState(moviesMock);
+  const [isShowDeleteWindow, onDeleteWindowVisibitityChange] = useState(false);
+  const [isShowEditWindow, onEditWindowVisibilityChange] = useState(false);
+  const [activeMovieId, setMovieId] = useState(null);
 
-  sortByDate ? movies.sort((a, b) => a.year - b.year)
-    : movies.sort((a, b) => b.year - a.year);
+  useEffect(() => {
+    let movies = movieList.sort((a,b) => sortByDate ? a.year - b.year : b.year - a.year);
+    setMovieList(movies);
+  }, [sortByDate]);
 
-  let showEditModal = false;
-  let showDeleteModal = false;
+  // search and sort by genre do not work correctly
+  // will be fixed after wiring up BE
+  useEffect(() => {
+    let movies = !searchValue
+      ? movieList
+      : movieList.filter(movie => {
+        return movie.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+    });
 
-  const onItemEdit = (id) => {
-    showEditModal = true;
+    setMovieList(movies);
+  }, [searchValue]);
+
+  useEffect(() => {
+    let movies = sortByGenre === 'All'
+      ? movieList
+      : movieList.filter(movie => movie.genre === sortByGenre);
+
+    setMovieList(movies);
+  }, [sortByGenre]);
+
+  const deleteMovieHandler = useCallback((id) => {
+    setMovieId(id);
+    onDeleteWindowVisibitityChange(true);
+  });
+
+  const editMovieHandler = useCallback((id) => {
+    setMovieId(id);
+    onEditWindowVisibilityChange(true);
+  });
+
+  const onCloseDeleteWindow = (result) => {
+    if (result) {
+      let updatedMovieList = movieList.filter(movie => movie.id !== activeMovieId);
+      setMovieId(null);
+      setMovieList(updatedMovieList);
+    }
+    onDeleteWindowVisibitityChange(false);
   };
 
-  const onItemDelete = (id) => {
-    showDeleteModal = true;
-  };
-
-  const handleClose = () => {
-    showEditModal = false;
-    showDeleteModal = false;
-  };
+  const onCLoseEditWindow = (result) => {
+    onEditWindowVisibilityChange(false);
+  }
 
   return (
     <Main>
-      <MoviesAmount>{movies.length} movies found</MoviesAmount>
+      <MoviesAmount>{movieList.length} movies found</MoviesAmount>
       <MoviesContainer>
         {
-          movies.map(movie => (
+          movieList.map(movie => (
             <MovieCard
-              title={movie.title}
-              genre={movie.genre}
+              movie={movie}
               key={movie.id}
-              id={movie.id}
-              year={movie.year}
-              onItemDelete={onItemDelete}
-              onItemEdit={onItemEdit}
+              onItemDelete={deleteMovieHandler}
+              onItemEdit={editMovieHandler}
+              onItemSelected={onItemSelected}
+              isActiveMode={true}
             />
           ))
         }
       </MoviesContainer>
       {
-        showEditModal && 
+        isShowEditWindow && 
           <ModalWindow
-          showModalWindow={showEditModal}
-          handleClose={handleClose}
-          headerText={'EDIT MOVIE'}
-        >
-          <p>Are you sure you want to delete this movie?</p>
+            showModalWindow={isShowEditWindow}
+            handleClose={onEditWindowVisibilityChange}
+            headerText={'EDIT MOVIE'}
+          >
+          <AddMovie formValue={{}}/>
         </ModalWindow>
       }
       {
-        showDeleteModal && 
+        isShowDeleteWindow && 
           <ModalWindow
-          showModalWindow={showDeleteModal}
-          handleClose={handleClose}
-          headerText={'DELETE MOVIE'}
-        >
-          <AddMovie formValue={{}}/>
+            showModalWindow={isShowDeleteWindow}
+            handleClose={onCloseDeleteWindow}
+            headerText={'DELETE MOVIE'}
+          > 
+          <p>Are you sure you want to delete this movie?</p>
         </ModalWindow>
       }
     </Main>

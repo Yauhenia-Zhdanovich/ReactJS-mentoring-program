@@ -14,4 +14,4 @@ const FooterContainer = styled.footer`
   justify-content: center;
 `;
 
-export default Footer;
+export default React.memo(Footer);

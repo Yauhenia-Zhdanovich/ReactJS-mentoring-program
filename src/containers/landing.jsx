@@ -5,7 +5,7 @@ import Header from '../components/header.component.jsx';
 import MovieList from './movie-list.jsx';
 import FilterDashboard from '../components/filter-dashboard.component.jsx';
 import Footer from '../components/footer.component.jsx';
-import ErrorBoundary from './error-boundaries.cimponent.jsx';
+import ErrorBoundary from './error-boundaries.component.jsx';
 import ModalWindow from '../components/modal-window.component.jsx';
 import AddMovie from './add-movie.component.jsx';
 

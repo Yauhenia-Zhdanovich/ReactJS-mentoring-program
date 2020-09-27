@@ -102,4 +102,4 @@ FilterDashboard.propTypes = {
   sortByGenre: PropTypes.string,
 }
 
-export default FilterDashboard;
+export default React.memo(FilterDashboard);
