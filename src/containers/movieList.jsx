@@ -2,49 +2,55 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import MovieCard from '../components/movie-card.component.jsx';
-import ModalWindow from '../components/modal-window.component.jsx';
-import AddMovie from './add-movie.component.jsx';
+import { connect } from 'react-redux';
 
-import moviesMock from '../assets/movies.mock';
+import MovieCard from '../components/movieCard.jsx';
+import ModalWindow from '../components/modalWindow.jsx';
+import AddMovie from './addMovie.jsx';
+import { FETCH_MOVIES, DELETE_MOVIE } from '../redux/actions/appActionsTypes.js';
 
 const MovieList = (
   {
     sortByDate = true,
     sortByGenre = 'All',
     searchValue = '',
-    onItemSelected
+    onItemSelected,
+    detailsProps,
+    fetchMovies,
+    deleteMovie,
   }) => {
 
-  const [movieList, setMovieList] = useState(moviesMock);
   const [isShowDeleteWindow, onDeleteWindowVisibitityChange] = useState(false);
   const [isShowEditWindow, onEditWindowVisibilityChange] = useState(false);
   const [activeMovieId, setMovieId] = useState(null);
 
   useEffect(() => {
-    let movies = movieList.sort((a,b) => sortByDate ? a.year - b.year : b.year - a.year);
-    setMovieList(movies);
+    fetchMovies({
+      sortBy: 'release_date',
+      sortOrder: sortByDate ? 'asc': 'desc',
+    });
   }, [sortByDate]);
 
-  // search and sort by genre do not work correctly
-  // will be fixed after wiring up BE
   useEffect(() => {
-    let movies = !searchValue
-      ? movieList
-      : movieList.filter(movie => {
-        return movie.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+    fetchMovies({
+      search: searchValue,
+      searchBy: 'title',
     });
-
-    setMovieList(movies);
   }, [searchValue]);
 
   useEffect(() => {
-    let movies = sortByGenre === 'All'
-      ? movieList
-      : movieList.filter(movie => movie.genre === sortByGenre);
-
-    setMovieList(movies);
+    let sortBy = '';
+    if (sortByGenre !== 'All') {
+      sortBy = sortByGenre;
+    }
+    fetchMovies({
+      filter: sortBy,
+    });
   }, [sortByGenre]);
+
+  useEffect(() => {
+    fetchMovies();
+   }, []);
 
   const deleteMovieHandler = useCallback((id) => {
     setMovieId(id);
@@ -58,23 +64,18 @@ const MovieList = (
 
   const onCloseDeleteWindow = (result) => {
     if (result) {
-      let updatedMovieList = movieList.filter(movie => movie.id !== activeMovieId);
+      deleteMovie(activeMovieId);
       setMovieId(null);
-      setMovieList(updatedMovieList);
     }
     onDeleteWindowVisibitityChange(false);
   };
 
-  const onCLoseEditWindow = (result) => {
-    onEditWindowVisibilityChange(false);
-  }
-
   return (
     <Main>
-      <MoviesAmount>{movieList.length} movies found</MoviesAmount>
+      <MoviesAmount>{detailsProps.length} movies found</MoviesAmount>
       <MoviesContainer>
         {
-          movieList.map(movie => (
+          detailsProps.map(movie => (
             <MovieCard
               movie={movie}
               key={movie.id}
@@ -88,13 +89,11 @@ const MovieList = (
       </MoviesContainer>
       {
         isShowEditWindow && 
-          <ModalWindow
+          <AddMovie
+            id={activeMovieId}
             showModalWindow={isShowEditWindow}
             handleClose={onEditWindowVisibilityChange}
-            headerText={'EDIT MOVIE'}
-          >
-          <AddMovie formValue={{}}/>
-        </ModalWindow>
+          />
       }
       {
         isShowDeleteWindow && 
@@ -135,4 +134,27 @@ MovieList.propTypes = {
   searchValue: PropTypes.string,
 };
 
-export default MovieList;
+const mapStateToProps = state => {
+  const { moviesList } = state;
+
+  return { detailsProps: moviesList };
+}
+
+const startFetchMovies = params => ({
+  type: FETCH_MOVIES,
+  payload: params,
+});
+
+const requestMovieDelete = id => ({
+  type: DELETE_MOVIE,
+  payload: id,
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchMovies: params => dispatch(startFetchMovies(params)),
+    deleteMovie: id => dispatch(requestMovieDelete(id)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Header from '../components/header.component.jsx';
-import MovieList from './movie-list.jsx';
-import FilterDashboard from '../components/filter-dashboard.component.jsx';
-import Footer from '../components/footer.component.jsx';
-import ErrorBoundary from './error-boundaries.component.jsx';
-import ModalWindow from '../components/modal-window.component.jsx';
-import AddMovie from './add-movie.component.jsx';
+import Header from '../components/header.jsx';
+import MovieList from './movieList.jsx';
+import FilterDashboard from '../components/filterDashboard.jsx';
+import Footer from '../components/footer.jsx';
+import ErrorBoundary from './errorBoundaries.jsx';
+import AddMovie from './addMovie.jsx';
 
 class LandingPage extends React.Component {
   constructor() {
@@ -67,13 +66,10 @@ class LandingPage extends React.Component {
           <Footer/>
           {
             this.state.showModal && 
-              <ModalWindow
+            <AddMovie
               showModalWindow={this.state.showModal}
               handleClose={this.onAddMovieModalStateChange}
-              headerText={'ADD MOVIE'}
-            >
-              <AddMovie formValue={{}}/>             
-            </ModalWindow>
+            />
           }
         </AppRoot>
       </ErrorBoundary>  

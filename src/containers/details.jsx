@@ -1,9 +1,11 @@
 import React, { useState }  from 'react';
 
-import FilterDashboard from '../components/filter-dashboard.component.jsx';
-import MovieList from './movie-list.jsx';
-import Footer from '../components/footer.component.jsx';
-import MovieDetails from '../components/movie-details.component.jsx'
+
+import FilterDashboard from '../components/filterDashboard.jsx';
+import MovieList from './movieList.jsx';
+import Footer from '../components/footer.jsx';
+import MovieDetails from '../components/movieDetails.jsx';
+import Loader from './loader.jsx';
 
 const Details = () => {
 
@@ -33,8 +35,9 @@ const Details = () => {
         onItemSelected={onItemSelected}
       />
       <Footer/>
+      <Loader />
     </>
   );
-}
+};
 
 export default Details;

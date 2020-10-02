@@ -25,19 +25,25 @@ const MovieCard = ({
   return (
     <MovieCardArticle onClick={() => {onItemSelected(movie)}}>
       <MovieImageContainer>
-        <img src="" alt=""/>
+        <MovieImage src={movie.poster_path} alt=""/>
         {
           isActiveMode &&
-          <MovieOptionButton>
+          <MovieOptionButtons>
             <RedButton onClick={event => {onEditButtonCLick(event)}}>Edit</RedButton>
             <RedButton onClick={event => {onDeleteButtonClick(event)}}>Delete</RedButton> 
-          </MovieOptionButton>
+          </MovieOptionButtons>
         }
       </MovieImageContainer>
       <MovieInfo>
         <h3>{movie.title}</h3>
-        <p>{movie.year}</p>
-        <p>{movie.genre}</p>
+        <p>{movie.release_date}</p>
+        <p>{
+          movie.genres.map(genre => (
+            <span key={genre}>
+              { genre }{' '}
+            </span>
+          ))
+        }</p>
       </MovieInfo>
     </MovieCardArticle>
   )
@@ -45,12 +51,15 @@ const MovieCard = ({
 
 const MovieCardArticle = styled.article`
   height: 450px;
+  max-width: 300px;
   border: 1px solid #fff;
   padding: 10px;
 `;
 
 const MovieImageContainer = styled.div`
   height: 80%;
+  position: relative;
+  text-align: center;
 `;
 
 const MovieInfo = styled.div`
@@ -58,10 +67,15 @@ const MovieInfo = styled.div`
   grid-template-columns: 3fr 1fr;
 `;
 
-const MovieOptionButton = styled.div`
- 
+const MovieOptionButtons = styled.div`
   cursor: pointer;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const MovieImage = styled.img`
+  height: 350px;
 `;
 
 
@@ -72,7 +86,7 @@ MovieCard.propTypes =  {
     {
       title: PropTypes.string,
       genre: PropTypes.string,
-      year: PropTypes.number,
+      release_date: PropTypes.string,
       imageUrl: PropTypes.string,
       filmRating: PropTypes.number,
       description: PropTypes.string,

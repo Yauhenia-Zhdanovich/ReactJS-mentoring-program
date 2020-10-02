@@ -12,20 +12,26 @@ const MovieDetails = ({movie}) => {
       movie ?
       <MovieDetailsContainer>
         <MovieImageContainer>
-          <img src="" alt=""/>
+          <MovieImage src={movie.poster_path} alt=""/>
         </MovieImageContainer>
         <div>
           <MovieTitleContainer>
             <MovieTitle>{movie.title}</MovieTitle>
-            <MovieRating>{movie.filmRating}</MovieRating>
+            <MovieRating>{movie.vote_average}</MovieRating>
           </MovieTitleContainer>
-          <h4>{movie.genre}</h4>
+          <h4>{
+            movie.genres.map(genre => (
+              <span key={genre}>
+                { genre }{' '}
+              </span>
+            ))
+          }</h4>
           <MovieDurationContainer>
-            <TimeItem>{movie.year}</TimeItem>
-            <TimeItem>{movie.duration} min</TimeItem>
+            <TimeItem>{movie.release_date}</TimeItem>
+            <TimeItem>{movie.runtime} min</TimeItem>
           </MovieDurationContainer>
           <MovieDescription>
-            {movie.description}
+            {movie.overview}
           </MovieDescription>
         </div>
       </MovieDetailsContainer>
@@ -108,6 +114,10 @@ const TimeItem = styled.div`
 const MovieDescription = styled.p`
   max-width: 1200px;
   padding-top: 10px;
+`;
+
+const MovieImage = styled.img`
+  height: 300px;
 `;
 
 export default React.memo(MovieDetails);

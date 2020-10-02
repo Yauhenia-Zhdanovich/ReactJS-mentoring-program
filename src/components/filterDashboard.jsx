@@ -82,7 +82,7 @@ const DateSorting = styled.div`
 
 const GenreItem = styled.li`
   padding: 20px;
-  font-size: 20px;
+  font-size: 17px;
 `;
 
 const GenreButton = styled.button`
@@ -91,7 +91,7 @@ const GenreButton = styled.button`
   border: 2px solid palevioletred;
   color: palevioletred;
   padding: 10px;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
 `;
 
