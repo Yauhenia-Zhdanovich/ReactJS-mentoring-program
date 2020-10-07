@@ -10,8 +10,6 @@ class AddMovie extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onWindowClose = this.onWindowClose.bind(this);
-
     this.state = {
       formValue: {},
     }
@@ -55,7 +53,7 @@ class AddMovie extends React.Component {
     this.setState({ formValue : { ...this.state.formValue, runtime: value }});
   }
 
-  onWindowClose (result) {
+  onWindowClose = (result) => {
     if (result) {
       if (this.props.id) {
         this.props.updateMovie(this.state.formValue)

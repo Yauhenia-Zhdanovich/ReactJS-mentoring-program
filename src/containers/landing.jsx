@@ -12,10 +12,6 @@ class LandingPage extends React.Component {
   constructor() {
     super();
 
-    this.onGenreChanged = this.onGenreChanged.bind(this);
-    this.onSortByDateChanged = this.onSortByDateChanged.bind(this);
-    this.onSearchInputChange = this.onSearchInputChange.bind(this);
-    this.onAddMovieModalStateChange = this.onAddMovieModalStateChange.bind(this);
     this.state = {
       sortByGenre: 'All',
       sortByDate: true,
@@ -24,21 +20,21 @@ class LandingPage extends React.Component {
     };
   }
 
-  onGenreChanged(genre) {
+  onGenreChanged = (genre) => {
     this.setState({
       sortByGenre: genre
     });
   }
 
-  onSortByDateChanged(sortType) {
+  onSortByDateChanged = (sortType) => {
     this.setState({sortByDate: sortType});
   }
 
-  onSearchInputChange(newSearchValue) {
+  onSearchInputChange = (newSearchValue) => {
     this.setState({searchValue: newSearchValue});
   }
 
-  onAddMovieModalStateChange(isWindowOpen) {
+  onAddMovieModalStateChange = (isWindowOpen) => {
     this.setState({showModal: isWindowOpen});
   }
 

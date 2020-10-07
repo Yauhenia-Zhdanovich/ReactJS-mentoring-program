@@ -10,14 +10,14 @@ class ModalWindow extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.onCloseWindow.bind(this));
+    document.addEventListener('keydown', this.onCloseWindow);
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onCloseWindow);
   }
 
-  onCloseWindow(event) {
+  onCloseWindow = (event) => {
     if (event.keyCode == 27) {
       this.props.handleClose(false);
     }
