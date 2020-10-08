@@ -63,6 +63,8 @@ class LandingPage extends React.Component {
           {
             this.state.showModal && 
             <AddMovie
+              headerText="ADD MOVIE"
+              movie={{}}
               showModalWindow={this.state.showModal}
               handleClose={this.onAddMovieModalStateChange}
             />

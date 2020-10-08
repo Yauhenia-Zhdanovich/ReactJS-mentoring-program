@@ -2,134 +2,127 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { connect } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import ModalWindow from '../components/modalWindow.jsx';
 import { ADD_MOVIE, UPDATE_MOVIE } from '../redux/actions/appActionsTypes.js';
 
-class AddMovie extends React.Component {
-  constructor(props) {
-    super(props);
+const AddMovie = (props) => {
 
-    this.state = {
-      formValue: {},
-    }
-  }
+  const formik = useFormik({
+    validationSchema: validationSchema,
+    initialValues: {
+      title: props.movie.title || '',
+      release_date: props.movie.release_date || '2020-12-10',
+      poster_path: props.movie.poster_path || '',
+      overview: props.movie.overview || '',
+      runtime: props.movie.runtime || 0,
+      genres: props.movie.genres && props.movie.genres.join(', ') || '',
+    },
+    onSubmit: values => {
+      const genres = values.genres.split(', ');
+      const runtime = Number(values.runtime);
 
-  componentDidMount() {
-    if (this.props.id) {
-      const editedMovie = this.props.moviesList.find(movie => movie.id === this.props.id);
-
-      this.setState(() => {
-        return { formValue: editedMovie };
-      })
-    } 
-  }
-
-  onTitleChange = value => {
-    this.setState({ formValue : { ...this.state.formValue, title: value }});
-  }
-
-  onReleaseDateChange = value => {
-    this.setState({ formValue : { ...this.state.formValue, release_date: value }});
-
-  }
-
-  onMovieUrlChange = value => {
-    this.setState({ formValue : { ...this.state.formValue, poster_path: value }});
-
-  }
-
-  onGenreChange = value => {
-    this.setState({ formValue : { ...this.state.formValue, genres: value }});
-
-  }
-
-  onOverviewChange = value => {
-    this.setState({ formValue : { ...this.state.formValue, overview: value }});
-
-  }
-
-  onRuntime = value => {
-    this.setState({ formValue : { ...this.state.formValue, runtime: value }});
-  }
-
-  onWindowClose = (result) => {
-    if (result) {
-      if (this.props.id) {
-        this.props.updateMovie(this.state.formValue)
+      if (props.movie.id) {
+        props.updateMovie({
+          ...values,
+          id: props.movie.id,
+          genres: genres,
+          runtime: runtime,
+        });
       } else {
-        this.props.addMovie(
+        props.addMovie(
           {
-            ...this.state.formValue,
-            genres: [this.state.formValue.genres],
-            runtime: Number(this.state.formValue.runtime)
+            ...values,
+            genres: genres,
+            runtime: runtime,
           }
         );
       }
+    },
+  });
+
+  const onWindowClose = (result) => {
+    if (result) {
+      if (!formik.isValid) {
+        return;
+      }
+      formik.handleSubmit();  
     }
-    this.props.handleClose();
+    props.handleClose();
   }
 
-  render() {
-    return (
-      <ModalWindow
-        showModalWindow={this.props.showModalWindow}
-        handleClose={this.onWindowClose}
-        headerText={'EDIT MOVIE'}
-      >
-        <Form>
-          <InputFieldContainer>
-            <label htmlFor="title">title</label>
-            <input
-              type="text"
-              value={this.state.formValue.title}
-              onChange={event => this.onTitleChange(event.target.value)}
-              id="title"/>  
-          </InputFieldContainer>
-          <InputFieldContainer>
-            <label htmlFor="releaseDate">release date</label>
-            <input
-              type="date"
-              value={this.state.formValue.release_date}
-              onChange={event => this.onReleaseDateChange(event.target.value)}
-              id="releaseDate"/>  
-          </InputFieldContainer>
-          <InputFieldContainer>
-            <label htmlFor="poster_path">movie URL</label>
-            <input
-              type="text"
-              value={this.state.formValue.poster_path}
-              onChange={event => this.onMovieUrlChange(event.target.value)}
-              id="poster_path"/>  
-          </InputFieldContainer>
-          <InputFieldContainer>
-            <label htmlFor="genre">genre</label>
-            <input
-              type="text"
-              value={this.state.formValue.genre}
-              onChange={event => this.onGenreChange(event.target.value)}
-              id="genre"/>  
-          </InputFieldContainer>
-          <InputFieldContainer>
-            <label htmlFor="overview">overview</label>
-            <input
-              type="textarea"
-              value={this.state.formValue.overview}
-              onChange={event => this.onOverviewChange(event.target.value)}
-              id="overview"/>  
-          </InputFieldContainer>
-          <InputFieldContainer>
-            <label htmlFor="runtime">runtime</label>
-            <input
-              type="number"
-              value={this.state.formValue.runtime}
-              onChange={event => this.onRuntime(event.target.value)}
-              id="runtime"/>  
-          </InputFieldContainer>
-        </Form>
-      </ModalWindow>
-    )
-  }
+  return (
+    <ModalWindow
+      showModalWindow={props.showModalWindow}
+      handleClose={onWindowClose}
+      headerText={props.headerText}
+    >
+      <Form>
+        <InputFieldContainer>
+          <label htmlFor="title">title</label>
+          <input
+            type="text"
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            id="title"/>
+          {formik.errors.title && formik.touched.title && <div>{formik.errors.title}</div>}
+        </InputFieldContainer>
+        <InputFieldContainer>
+          <label htmlFor="releaseDate">release date</label>
+          <input
+            type="date"
+            value={formik.values.release_date}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            id="releaseDate"/>  
+            {formik.errors.release_date && formik.touched.release_date && <div>{formik.errors.release_date}</div>}
+        </InputFieldContainer>
+        <InputFieldContainer>
+          <label htmlFor="poster_path">movie URL</label>
+          <input
+            type="text"
+            value={formik.values.poster_path}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            id="poster_path"/>
+          {formik.errors.poster_path && formik.touched.poster_path && <div>{formik.errors.poster_path}</div>}  
+        </InputFieldContainer>
+        <InputFieldContainer>
+          <label htmlFor="genres">genre</label>
+          <input
+            type="text"
+            value={formik.values.genres}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            id="genres"/>
+          {formik.errors.genres && formik.touched.genres && <div>{formik.errors.genres}</div>}  
+        </InputFieldContainer>
+        <InputFieldContainer>
+          <label htmlFor="overview">overview</label>
+          <input
+            type="textarea"
+            value={formik.values.overview}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            id="overview"/>
+          {formik.errors.overview && formik.touched.overview && <div>{formik.errors.overview}</div>}
+        </InputFieldContainer>
+        <InputFieldContainer>
+          <label htmlFor="runtime">runtime</label>
+          <input
+            type="number"
+            value={formik.values.runtime}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            id="runtime"/>
+          {formik.errors.runtime && formik.touched.runtime && <div>{formik.errors.runtime}</div>}  
+        </InputFieldContainer>
+      </Form>
+    </ModalWindow>
+  )
 }
 
 const InputFieldContainer = styled.div`
@@ -149,7 +142,7 @@ const mapStateToProps = state => {
   const { moviesList } = state;
 
   return { moviesList: moviesList };
-}
+};
 
 const startMovieUpdate = movie => ({
   type: UPDATE_MOVIE,
@@ -166,6 +159,26 @@ const mapDispatchToProps = dispatch => {
     updateMovie: movie => dispatch(startMovieUpdate(movie)),
     addMovie: movie => dispatch(startAddMovie(movie)),
   }
-}
+};
+
+const validationSchema = Yup.object({
+  title: Yup.string()
+    .max(60, 'Must be 60 characters or less')
+    .required('Required'),
+  release_date: Yup.date()
+    .required('Required'),
+  poster_path: Yup.string()
+    .min(6, 'Must be more then 6 characters')
+    .matches(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/, 'Must follow a specific pattern')
+    .required('Required'),
+  overview: Yup.string()
+    .max(500, 'Must be 500 characters or less')
+    .required('Required'),
+  runtime: Yup.number()
+    .min(0, 'Must be more than 0')
+    .required('Required'),
+  genres: Yup.string()
+    .max(250, 'Must be 60 characters or less')
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddMovie);

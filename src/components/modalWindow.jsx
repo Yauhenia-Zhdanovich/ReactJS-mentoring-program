@@ -37,7 +37,7 @@ class ModalWindow extends React.Component {
             {this.props.children}
           </ModalBody>
           <ModalFooter>
-            <FooterButton>Reset</FooterButton>
+            <FooterButton onClick={() => {this.props.handleClose(false)}}>Reset</FooterButton>
             <SubmitButton onClick={() => {this.props.handleClose(true)}}>Submit</SubmitButton>
           </ModalFooter>
         </ModalWindowContainer>

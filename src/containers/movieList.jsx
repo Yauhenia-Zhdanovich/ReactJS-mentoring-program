@@ -15,14 +15,14 @@ const MovieList = (
     sortByGenre = 'All',
     searchValue = '',
     onItemSelected,
-    detailsProps,
     fetchMovies,
     deleteMovie,
+    moviesList
   }) => {
 
   const [isShowDeleteWindow, onDeleteWindowVisibitityChange] = useState(false);
   const [isShowEditWindow, onEditWindowVisibilityChange] = useState(false);
-  const [activeMovieId, setMovieId] = useState(null);
+  const [activeCurrentMovie, setCurrentMovie] = useState(null);
 
   useEffect(() => {
     fetchMovies({
@@ -53,29 +53,31 @@ const MovieList = (
    }, []);
 
   const deleteMovieHandler = useCallback((id) => {
-    setMovieId(id);
+    const currentMovie = moviesList.find(movie => movie.id === id);
+    setCurrentMovie(currentMovie);
     onDeleteWindowVisibitityChange(true);
   });
 
   const editMovieHandler = useCallback((id) => {
-    setMovieId(id);
+    const currentMovie = moviesList.find(movie => movie.id === id);
+    setCurrentMovie(currentMovie);
     onEditWindowVisibilityChange(true);
   });
 
   const onCloseDeleteWindow = (result) => {
     if (result) {
-      deleteMovie(activeMovieId);
-      setMovieId(null);
+      deleteMovie(activeCurrentMovie.id);
+      setCurrentMovie(null);
     }
     onDeleteWindowVisibitityChange(false);
   };
 
   return (
     <Main>
-      <MoviesAmount>{detailsProps.length} movies found</MoviesAmount>
+      <MoviesAmount>{moviesList.length} movies found</MoviesAmount>
       <MoviesContainer>
         {
-          detailsProps.map(movie => (
+          moviesList.map(movie => (
             <MovieCard
               movie={movie}
               key={movie.id}
@@ -90,9 +92,10 @@ const MovieList = (
       {
         isShowEditWindow && 
           <AddMovie
-            id={activeMovieId}
+            movie={activeCurrentMovie}
             showModalWindow={isShowEditWindow}
             handleClose={onEditWindowVisibilityChange}
+            headerText="EDIT MOVIE"
           />
       }
       {
@@ -137,7 +140,7 @@ MovieList.propTypes = {
 const mapStateToProps = state => {
   const { moviesList } = state;
 
-  return { detailsProps: moviesList };
+  return { moviesList: moviesList };
 }
 
 const startFetchMovies = params => ({
