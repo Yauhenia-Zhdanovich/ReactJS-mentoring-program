@@ -4,7 +4,6 @@ import axios from 'axios';
 import * as AppActions from '../actions/appActionsTypes.js';
 import { baseUrl } from '../../const/common.js';
 
-
 const fetchMovies = params => axios.get(baseUrl, { params: params });
 
 export function* fetchMoviesEffect(action) {

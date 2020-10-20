@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
+import { useHistory, useLocation } from "react-router-dom";
 
 import MovieCard from '../components/movieCard.jsx';
 import ModalWindow from '../components/modalWindow.jsx';
@@ -11,45 +12,26 @@ import { FETCH_MOVIES, DELETE_MOVIE } from '../redux/actions/appActionsTypes.js'
 
 const MovieList = (
   {
-    sortByDate = true,
-    sortByGenre = 'All',
-    searchValue = '',
     onItemSelected,
     fetchMovies,
     deleteMovie,
     moviesList
   }) => {
+  let history = useHistory();
+  let location = useLocation();
 
   const [isShowDeleteWindow, onDeleteWindowVisibitityChange] = useState(false);
   const [isShowEditWindow, onEditWindowVisibilityChange] = useState(false);
   const [activeCurrentMovie, setCurrentMovie] = useState(null);
 
   useEffect(() => {
-    fetchMovies({
-      sortBy: 'release_date',
-      sortOrder: sortByDate ? 'asc': 'desc',
-    });
-  }, [sortByDate]);
+    if (location.search) {
+      const params = new URLSearchParams(location.search);
 
-  useEffect(() => {
-    fetchMovies({
-      search: searchValue,
-      searchBy: 'title',
-    });
-  }, [searchValue]);
-
-  useEffect(() => {
-    let sortBy = '';
-    if (sortByGenre !== 'All') {
-      sortBy = sortByGenre;
+      fetchMovies(params)
+    } else {
+      fetchMovies();
     }
-    fetchMovies({
-      filter: sortBy,
-    });
-  }, [sortByGenre]);
-
-  useEffect(() => {
-    fetchMovies();
    }, []);
 
   const deleteMovieHandler = useCallback((id) => {
@@ -72,23 +54,30 @@ const MovieList = (
     onDeleteWindowVisibitityChange(false);
   };
 
+  const onItemSelectedRedirect = (item) => {
+    history.push(`/movies/${item.id}`)
+  }
+
   return (
     <Main>
       <MoviesAmount>{moviesList.length} movies found</MoviesAmount>
+     { 
+      moviesList && 
       <MoviesContainer>
-        {
-          moviesList.map(movie => (
-            <MovieCard
-              movie={movie}
-              key={movie.id}
-              onItemDelete={deleteMovieHandler}
-              onItemEdit={editMovieHandler}
-              onItemSelected={onItemSelected}
-              isActiveMode={true}
-            />
-          ))
-        }
-      </MoviesContainer>
+          {
+            moviesList.map(movie => (
+              <MovieCard
+                movie={movie}
+                key={movie.id}
+                onItemDelete={deleteMovieHandler}
+                onItemEdit={editMovieHandler}
+                onItemSelected={onItemSelected || onItemSelectedRedirect}
+                isActiveMode={true}
+              />
+            ))
+          }
+        </MoviesContainer>
+      }
       {
         isShowEditWindow && 
           <AddMovie

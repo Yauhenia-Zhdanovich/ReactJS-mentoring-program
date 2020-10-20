@@ -1,6 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
 
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { useHistory, useLocation } from "react-router-dom";
+
+import { CHANGE_SORT_BY_DATE, CHANGE_SORT_BY_GENRE, FETCH_MOVIES } from '../redux/actions/appActionsTypes.js';
 import PropTypes from 'prop-types';
 
 const genres = [
@@ -27,29 +31,60 @@ const genres = [
 ];
 
 const FilterDashboard = ({
-  onGenreChanged,
-  onReleseDateSortChanged,
-  sortByDate = true,
-  sortByGenre = 'All',
+  sortByDate,
+  sortByGenre,
+  startChangeSortByDate,
+  startChangeSortByGenre,
 }) => 
   {
+    let history = useHistory();
+    let location = useLocation();
+
+    
+    useEffect(() => {
+      const params = new URLSearchParams(location.search);
+
+      if (params.get('sortOrder')) {
+        onReleseDateSortChanged(params.get('sortOrder'));
+      }
+    }, []);
+
+    const onReleseDateSortChanged = params => {
+      history.push(`?sortBy=release_date&sortOrder=${params || sortByDate === 'asc' ? 'desc' : 'asc'}`);
+      startChangeSortByDate(sortByDate === 'asc' ? 'desc' : 'asc')
+    }
+
+    const onStartChangeSortByGenre = genre => {     
+      let isGenreActive = sortByGenre.find(el => el === genre);
+      let payload = isGenreActive ? sortByGenre.filter(el => el !== genre) : [...sortByGenre, genre];
+
+      history.push(payload.length ? `?sortBy=genre&filter=${payload.join(',')}` : '/');
+
+      startChangeSortByGenre(payload.filter(el => el));
+    }
+
     return (
       <FilterBoard>
         <GenreList>
           {
             genres.map(genre => (
               <GenreItem key={genre.id}>
-                <GenreButton onClick={() => onGenreChanged(genre.text)}>{genre.text}</GenreButton>
+                <GenreButton
+                  onClick={() => onStartChangeSortByGenre(genre.text)}
+                  className={sortByGenre.find(el => el === genre.text) ? 'active' : 'frozen'}
+                  >
+                  {genre.text}
+                </GenreButton>
               </GenreItem>
             ))
           }
         </GenreList>
         <DateSorting>
           <p>Sort By</p>
-          <GenreButton onClick={() => onReleseDateSortChanged(!sortByDate)}>
+          <GenreButton onClick={() => onReleseDateSortChanged()}>
             Release Date
             {
-              sortByDate
+              sortByDate === 'asc'
               ? <span>﹀</span>
               : <span>︿</span>
             }           
@@ -98,8 +133,29 @@ const GenreButton = styled.button`
 FilterDashboard.propTypes = {
   onGenreChanged: PropTypes.func,
   onReleseDateSortChanged: PropTypes.func,
-  sortByDate: PropTypes.bool,
-  sortByGenre: PropTypes.string,
+};
+
+const mapStateToProps = state => {
+  const { sortByDate, sortByGenre } = state;
+
+  return { sortByDate: sortByDate, sortByGenre: sortByGenre };
 }
 
-export default React.memo(FilterDashboard);
+const changeSortByDate = sortByDate => ({
+  type: CHANGE_SORT_BY_DATE,
+  payload: { sortBy: 'release_date', sortOrder: sortByDate },
+});
+
+const changeSortByGenre = sortByGenre => ({
+  type: CHANGE_SORT_BY_GENRE,
+  payload: { sortBy: 'genres', filter: sortByGenre.join(',') },
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    startChangeSortByDate: sortByDate => dispatch(changeSortByDate(sortByDate)),
+    startChangeSortByGenre: sortByGenre => dispatch(changeSortByGenre(sortByGenre)),
+  }
+}
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(FilterDashboard));

@@ -13,25 +13,8 @@ class LandingPage extends React.Component {
     super();
 
     this.state = {
-      sortByGenre: 'All',
-      sortByDate: true,
-      searchValue: '',
       showModal: false,
     };
-  }
-
-  onGenreChanged = (genre) => {
-    this.setState({
-      sortByGenre: genre
-    });
-  }
-
-  onSortByDateChanged = (sortType) => {
-    this.setState({sortByDate: sortType});
-  }
-
-  onSearchInputChange = (newSearchValue) => {
-    this.setState({searchValue: newSearchValue});
   }
 
   onAddMovieModalStateChange = (isWindowOpen) => {
@@ -43,21 +26,11 @@ class LandingPage extends React.Component {
       <ErrorBoundary>
         <AppRoot>
           <Header
-            onSearchInputChange={this.onSearchInputChange}
             onAddMovieClick={this.onAddMovieModalStateChange}
           />
-          <FilterDashboard
-            onGenreChanged={this.onGenreChanged}
-            onReleseDateSortChanged={this.onSortByDateChanged}
-            sortByDate={this.state.sortByDate}
-            sortByGenre={this.state.sortByGenre}
-          />
+          <FilterDashboard />
           <ErrorBoundary>
-            <MovieList
-              sortByDate={this.state.sortByDate}
-              sortByGenre={this.state.sortByGenre}
-              searchValue={this.state.searchValue}
-            />
+            <MovieList />
           </ErrorBoundary>
           <Footer/>
           {

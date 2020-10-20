@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { useHistory, useLocation } from "react-router-dom";
+
 import { RedButton } from '../assets/shared-styles.js';
 import { useInput } from '../hooks/use-input.hook.js';
+import { CHANGE_SEARCH_VALUE } from '../redux/actions/appActionsTypes.js';
 
 const Header = ({
-  onSearchInputChange,
   onAddMovieClick,
+  changeSearchValue,
 }) => {
-  const [searchValue, bindSerchValue] = useInput('');
+  const [searchValue, bindSerchValue, setNewValue] = useInput('');
+  let history = useHistory();
+  let location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    if (params.get('search')) {
+      setNewValue(params.get('search'));
+    }
+  }, []);
+
+  const onSearch = (searchValue) => {
+    if (searchValue === '') {
+      history.push('/');
+    } else {
+      history.push(`?search=${searchValue}&searchBy=title`);
+    }
+    changeSearchValue(searchValue)
+  }
 
   return (
     <HeaderContainer>
@@ -22,7 +45,7 @@ const Header = ({
       </GeneralHeading>
       <MovieSearchInputContainer>
         <input type="text" {...bindSerchValue}/>
-        <RedButton onClick={() => onSearchInputChange(searchValue)}>Search</RedButton>
+        <RedButton onClick={() => onSearch(searchValue)}>Search</RedButton>
       </MovieSearchInputContainer>
     </HeaderContainer>
   );
@@ -61,4 +84,16 @@ Header.propTypes = {
   onSearchInputChange: PropTypes.func,
 }
 
-export default React.memo(Header);
+
+const changeSearchValue = searchValue => ({
+  type: CHANGE_SEARCH_VALUE,
+  payload: { search: searchValue, searchBy: 'title' },
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeSearchValue: searchValue => dispatch(changeSearchValue(searchValue)),
+  }
+}
+
+export default React.memo(connect(null, mapDispatchToProps)(Header));

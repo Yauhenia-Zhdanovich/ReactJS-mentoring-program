@@ -2,7 +2,10 @@ import * as AppActions from '../actions/appActionsTypes.js';
 
 const defaultState = {
   moviesList: [],
-  loading: false
+  loading: false,
+  searchValue: '',
+  sortByDate: '',
+  sortByGenre: [],
 };
 
 export default function appReducer(state = defaultState, action) {
@@ -29,6 +32,12 @@ export default function appReducer(state = defaultState, action) {
       return { ...state, loading: false };
     case AppActions.UPDATE_MOVIE_SUCCESS:
       return { ...state, loading: false };
+    case AppActions.CHANGE_SEARCH_VALUE:
+      return { ...state, searchValue: action.payload.search };
+    case AppActions.CHANGE_SORT_BY_DATE:
+      return { ...state, sortByDate: action.payload.sortOrder };
+    case AppActions.CHANGE_SORT_BY_GENRE:
+      return { ...state, sortByGenre: action.payload.filter.split(',') };
     default:
       return { ...state };
   }

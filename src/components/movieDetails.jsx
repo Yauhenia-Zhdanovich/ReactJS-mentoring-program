@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const MovieDetails = ({movie}) => {
+import { useHistory } from "react-router-dom";
+
+const MovieDetails = ({ movie }) => {
+  let history = useHistory();
+
   return (
     <>
     <DetailsHeader>
       <p>netflix roulette</p>
-      <div>🔎</div>
+      <div onClick={() => history.push('/')}>🔎</div>
     </DetailsHeader>
     {
       movie ?

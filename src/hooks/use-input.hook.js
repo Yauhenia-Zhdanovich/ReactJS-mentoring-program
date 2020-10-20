@@ -8,5 +8,7 @@ export function useInput(initialValue) {
     onChange: event => setValue(event.target.value),
   };
 
-  return [value, bind];
+  const setNew = newValue => setValue(newValue);
+
+  return [value, bind, setNew];
 }

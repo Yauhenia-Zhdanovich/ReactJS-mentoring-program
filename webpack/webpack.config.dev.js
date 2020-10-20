@@ -6,7 +6,8 @@ module.exports = {
   devtool: 'source-map',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(process.cwd(), 'dist'),
+    publicPath: '/',
   },
   plugins: [
     new webpack.SourceMapDevToolPlugin({
@@ -19,6 +20,11 @@ module.exports = {
     splitChunks: {
         chunks: 'all'
     }
+  },
+  devServer: {
+    contentBase: './dist',
+    publicPath: '/',
+    historyApiFallback: true
   },
   performance: {
     hints: 'warning',

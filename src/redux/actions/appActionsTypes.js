@@ -13,3 +13,9 @@ export const UPDATE_MOVIE_SUCCESS = 'movie/UPDATE_MOVIE_SUCCESS';
 export const ADD_MOVIE = 'movie/ADD_MOVIE';
 export const ADD_MOVIE_SUCCESS = 'movie/ADD_MOVIE_SUCCESS';
 export const ADD_MOVIE_FAIL = 'movie/ADD_MOVIE_FAIL';
+
+export const CHANGE_SEARCH_VALUE = 'search/CHANGE_SEARCH_VALUE';
+
+export const CHANGE_SORT_BY_DATE = 'sort/CHANGE_SORT_BY_DATE';
+
+export const CHANGE_SORT_BY_GENRE = 'sort/CHANGE_SORT_BY_GENRE';

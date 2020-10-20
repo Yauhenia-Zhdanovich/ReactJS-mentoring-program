@@ -1,6 +1,8 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 import path from 'path';
 
 import rules from './rules';
@@ -16,8 +18,10 @@ module.exports = {
   },
   plugins: [
       new webpack.ProgressPlugin(),
+      new MiniCssExtractPlugin(),
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, '../', 'src/index.html'),
+        inject: true,
+        template: path.resolve('src/index.html'),
       }),
       new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
   ]
