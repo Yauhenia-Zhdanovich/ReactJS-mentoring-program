@@ -18,7 +18,7 @@ export default function appReducer(state = defaultState, action) {
         moviesList: action.payload,
         loading: false,
       };
-    case AppActions.FETCH_MOVIES_FAIL:
+    case AppActions.FETCH_MOVIE_FAIL:
       return { ...state, loading: false };
     case AppActions.DELETE_MOVIE:
       return { ...state, loading: true };

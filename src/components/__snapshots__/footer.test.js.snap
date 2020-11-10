@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer snap renders Footer snapshot 1`] = `
+<footer
+  className="sc-bdnylx fwjQbp"
+>
+  <p>
+    netflix roulette
+  </p>
+</footer>
+`;

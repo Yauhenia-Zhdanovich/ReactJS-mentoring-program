@@ -1,0 +1,324 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddMovie snap renders AddMovie snapshot 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sc-pNWxx jODMzG display-none"
+      >
+        <section
+          class="sc-hKFyIo fUdXJd"
+        >
+          <header
+            class="sc-eCApGN LCmzs"
+          >
+            <div
+              class="sc-iCoHVE izmrlM"
+            >
+              <button
+                class="sc-bdnylx dPXfs"
+              >
+                ×
+              </button>
+            </div>
+            <h2
+              class="sc-fujyUd dvQaSM"
+            />
+          </header>
+          <div
+            class="sc-jSFkmK iCtxoI"
+          >
+            <form
+              class="sc-kEqYlL eIzFvh"
+            >
+              <div
+                class="sc-jrsJCI jPwwHH"
+              >
+                <label
+                  for="title"
+                >
+                  title
+                </label>
+                <input
+                  id="title"
+                  type="text"
+                  value="La La Land"
+                />
+              </div>
+              <div
+                class="sc-jrsJCI jPwwHH"
+              >
+                <label
+                  for="releaseDate"
+                >
+                  release date
+                </label>
+                <input
+                  id="releaseDate"
+                  type="date"
+                  value="2016-12-29"
+                />
+              </div>
+              <div
+                class="sc-jrsJCI jPwwHH"
+              >
+                <label
+                  for="poster_path"
+                >
+                  movie URL
+                </label>
+                <input
+                  id="poster_path"
+                  type="text"
+                  value="https://image.tmdb.org/t/p/w500/ylXCdC106IKiarftHkcacasaAcb.jpg"
+                />
+              </div>
+              <div
+                class="sc-jrsJCI jPwwHH"
+              >
+                <label
+                  for="genres"
+                >
+                  genre
+                </label>
+                <input
+                  id="genres"
+                  type="text"
+                  value="Comedy, Drama, Romance"
+                />
+              </div>
+              <div
+                class="sc-jrsJCI jPwwHH"
+              >
+                <label
+                  for="overview"
+                >
+                  overview
+                </label>
+                <input
+                  id="overview"
+                  type="textarea"
+                  value="Mia, an aspiring actress, serves lattes to movie stars in between auditions and Sebastian, a jazz musician, scrapes by playing cocktail party gigs in dingy bars, but as success mounts they are faced with decisions that begin to fray the fragile fabric of their love affair, and the dreams they worked so hard to maintain in each other threaten to rip them apart."
+                />
+              </div>
+              <div
+                class="sc-jrsJCI jPwwHH"
+              >
+                <label
+                  for="runtime"
+                >
+                  runtime
+                </label>
+                <input
+                  id="runtime"
+                  type="number"
+                  value="128"
+                />
+              </div>
+            </form>
+          </div>
+          <footer
+            class="sc-gKAblj gysTlz"
+          >
+            <button
+              class="sc-bdnylx sc-gtssRu dPXfs eWDxnX"
+            >
+              Reset
+            </button>
+            <button
+              class="sc-bdnylx sc-gtssRu sc-dlnjPT dPXfs eWDxnX ftfhdJ"
+            >
+              Submit
+            </button>
+          </footer>
+        </section>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sc-pNWxx jODMzG display-none"
+    >
+      <section
+        class="sc-hKFyIo fUdXJd"
+      >
+        <header
+          class="sc-eCApGN LCmzs"
+        >
+          <div
+            class="sc-iCoHVE izmrlM"
+          >
+            <button
+              class="sc-bdnylx dPXfs"
+            >
+              ×
+            </button>
+          </div>
+          <h2
+            class="sc-fujyUd dvQaSM"
+          />
+        </header>
+        <div
+          class="sc-jSFkmK iCtxoI"
+        >
+          <form
+            class="sc-kEqYlL eIzFvh"
+          >
+            <div
+              class="sc-jrsJCI jPwwHH"
+            >
+              <label
+                for="title"
+              >
+                title
+              </label>
+              <input
+                id="title"
+                type="text"
+                value="La La Land"
+              />
+            </div>
+            <div
+              class="sc-jrsJCI jPwwHH"
+            >
+              <label
+                for="releaseDate"
+              >
+                release date
+              </label>
+              <input
+                id="releaseDate"
+                type="date"
+                value="2016-12-29"
+              />
+            </div>
+            <div
+              class="sc-jrsJCI jPwwHH"
+            >
+              <label
+                for="poster_path"
+              >
+                movie URL
+              </label>
+              <input
+                id="poster_path"
+                type="text"
+                value="https://image.tmdb.org/t/p/w500/ylXCdC106IKiarftHkcacasaAcb.jpg"
+              />
+            </div>
+            <div
+              class="sc-jrsJCI jPwwHH"
+            >
+              <label
+                for="genres"
+              >
+                genre
+              </label>
+              <input
+                id="genres"
+                type="text"
+                value="Comedy, Drama, Romance"
+              />
+            </div>
+            <div
+              class="sc-jrsJCI jPwwHH"
+            >
+              <label
+                for="overview"
+              >
+                overview
+              </label>
+              <input
+                id="overview"
+                type="textarea"
+                value="Mia, an aspiring actress, serves lattes to movie stars in between auditions and Sebastian, a jazz musician, scrapes by playing cocktail party gigs in dingy bars, but as success mounts they are faced with decisions that begin to fray the fragile fabric of their love affair, and the dreams they worked so hard to maintain in each other threaten to rip them apart."
+              />
+            </div>
+            <div
+              class="sc-jrsJCI jPwwHH"
+            >
+              <label
+                for="runtime"
+              >
+                runtime
+              </label>
+              <input
+                id="runtime"
+                type="number"
+                value="128"
+              />
+            </div>
+          </form>
+        </div>
+        <footer
+          class="sc-gKAblj gysTlz"
+        >
+          <button
+            class="sc-bdnylx sc-gtssRu dPXfs eWDxnX"
+          >
+            Reset
+          </button>
+          <button
+            class="sc-bdnylx sc-gtssRu sc-dlnjPT dPXfs eWDxnX ftfhdJ"
+          >
+            Submit
+          </button>
+        </footer>
+      </section>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

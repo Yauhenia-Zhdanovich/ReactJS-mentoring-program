@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from "react-router-dom";
 
-import { CHANGE_SORT_BY_DATE, CHANGE_SORT_BY_GENRE, FETCH_MOVIES } from '../redux/actions/appActionsTypes.js';
+import { CHANGE_SORT_BY_DATE, CHANGE_SORT_BY_GENRE } from '../redux/actions/appActionsTypes.js';
 import PropTypes from 'prop-types';
 
 const genres = [
