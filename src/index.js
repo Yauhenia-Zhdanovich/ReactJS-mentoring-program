@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { hydrate } from 'react-dom';
+
 
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { hot } from 'react-hot-loader';
+
 
 import store from './redux/store/store.js';
 
@@ -13,7 +17,7 @@ import './index.css';
 
 const rootElement = document.getElementById('root');
 
-ReactDOM.render(
+const App = () => (
   <React.StrictMode>
     <Provider store={store}>
       <Router>
@@ -25,6 +29,14 @@ ReactDOM.render(
         </Switch>
       </Router>
     </Provider>
-  </React.StrictMode>,
-  rootElement
+  </React.StrictMode>
 );
+
+const RootComponent = hot(module)(App);
+
+
+hydrate(RootComponent, rootElement);
+// ReactDOM.render(
+  
+//   rootElement
+// );
